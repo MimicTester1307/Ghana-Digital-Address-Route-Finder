@@ -1,12 +1,17 @@
 """
 This file contains helper functions that will aid the running program
 """
-
+import os
 import re
 import requests
 from collections import defaultdict
+import googlemaps
+from dotenv import load_dotenv
 
+load_dotenv()
+API_KEY = os.environ.get('MAPS_API_KEY')
 GHANA_POST_URL = "https://ghanapostgps.sperixlabs.org/get-location"
+gmaps = googlemaps.Client(key=API_KEY)
 
 
 def is_valid_input(source_address: str, dest_address: str) -> bool:
@@ -28,7 +33,7 @@ def is_valid_input(source_address: str, dest_address: str) -> bool:
     return False
 
 
-def query_ghpost_api(source_address: str, dest_address: str) -> defaultdict[list[int]] or None:
+def query_ghpost_api(source_address: str, dest_address: str) -> defaultdict[list[float]] or str:
     """
     This function queries the Ghana Post GPS API using the obtained digital addresses
     to get the data required to find the routes on a Google Map
@@ -56,5 +61,18 @@ def query_ghpost_api(source_address: str, dest_address: str) -> defaultdict[list
 
         return address_geolocations
     else:
-        return None
+        return "Locations(s) not found"
+
+
+def get_location_names(latitude: float, longitude: float) -> list:
+    location_details = gmaps.reverse_geocode(latlng=(latitude, longitude),
+                                             result_type=["street_address", "route", "intersection", "neighborhood",
+                                                          "premise"],
+                                             # filters out quite a number of results. Assumption is that system is
+                                             # being used for locations within cities
+                                             location_type=[
+                                                 "GEOMETRIC_CENTER"])  # using GEOMETRIC_CENTER makes up for some of
+    # the inaccuracies and lack of specific coordinates
+
+    return location_details
 
