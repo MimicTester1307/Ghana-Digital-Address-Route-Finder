@@ -2,8 +2,11 @@
 This file contains helper functions that will aid the running program
 """
 
-
 import re
+import requests
+from collections import defaultdict
+
+GHANA_POST_URL = "https://ghanapostgps.sperixlabs.org/get-location"
 
 
 def is_valid_input(source_address: str, dest_address: str) -> bool:
@@ -23,3 +26,35 @@ def is_valid_input(source_address: str, dest_address: str) -> bool:
         return True
 
     return False
+
+
+def query_ghpost_api(source_address: str, dest_address: str) -> defaultdict[list[int]] or None:
+    """
+    This function queries the Ghana Post GPS API using the obtained digital addresses
+    to get the data required to find the routes on a Google Map
+    :param source_address: the source address the user wants to search from
+    :param dest_address: the destination address the user will search for
+    :return:
+    """
+    headers = {
+        'Content-Type': 'application/x-www-form-urlencoded'
+    }
+
+    address_geolocations = defaultdict(list[int])
+
+    source_response = requests.post(GHANA_POST_URL, data=f"address={source_address}", headers=headers).json()
+    destination_response = requests.post(GHANA_POST_URL, data=f"address={dest_address}", headers=headers).json()
+
+    if source_response['found'] and destination_response['found']:
+        source_lat, source_long = source_response['data']['Table'][0]['CenterLatitude'], \
+                                  source_response['data']['Table'][0]['CenterLongitude']
+        dest_lat, dest_long = destination_response['data']['Table'][0]['CenterLatitude'], \
+                              destination_response['data']['Table'][0]['CenterLongitude']
+
+        address_geolocations['source_address'] = [source_lat, source_long]
+        address_geolocations['destination_address'] = [dest_lat, dest_long]
+
+        return address_geolocations
+    else:
+        return None
+
