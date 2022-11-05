@@ -33,7 +33,7 @@ def is_valid_input(source_address: str, dest_address: str) -> bool:
     return False
 
 
-def query_ghpost_api(source_address: str, dest_address: str) -> defaultdict[list[float]] or str:
+def query_ghpost_api(source_address: str, dest_address: str) -> defaultdict[list[float]] or None:
     """
     This function queries the Ghana Post GPS API using the obtained digital addresses
     to get the data required to find the routes on a Google Map
@@ -50,7 +50,7 @@ def query_ghpost_api(source_address: str, dest_address: str) -> defaultdict[list
     source_response = requests.post(GHANA_POST_URL, data=f"address={source_address}", headers=headers).json()
     destination_response = requests.post(GHANA_POST_URL, data=f"address={dest_address}", headers=headers).json()
 
-    if source_response['found'] and destination_response['found']:
+    if source_response.get('found') and destination_response.get('found'):
         source_lat, source_long = source_response['data']['Table'][0]['CenterLatitude'], \
                                   source_response['data']['Table'][0]['CenterLongitude']
         dest_lat, dest_long = destination_response['data']['Table'][0]['CenterLatitude'], \
@@ -61,7 +61,7 @@ def query_ghpost_api(source_address: str, dest_address: str) -> defaultdict[list
 
         return address_geolocations
     else:
-        return "Locations(s) not found"
+        return None
 
 
 def get_location_names(latitude: float, longitude: float) -> list:
@@ -75,4 +75,3 @@ def get_location_names(latitude: float, longitude: float) -> list:
     # the inaccuracies and lack of specific coordinates
 
     return location_details
-
