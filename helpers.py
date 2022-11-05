@@ -64,7 +64,7 @@ def query_ghpost_api(source_address: str, dest_address: str) -> defaultdict[list
         return None
 
 
-def get_location_names(latitude: float, longitude: float) -> tuple:
+def get_location_details(latitude: float, longitude: float) -> tuple:
     location_details = gmaps.reverse_geocode(latlng=(latitude, longitude),
                                              result_type=["street_address", "route", "intersection", "neighborhood",
                                                           "premise"],
