@@ -64,14 +64,18 @@ def query_ghpost_api(source_address: str, dest_address: str) -> defaultdict[list
         return None
 
 
-def get_location_names(latitude: float, longitude: float) -> list:
+def get_location_names(latitude: float, longitude: float) -> tuple:
     location_details = gmaps.reverse_geocode(latlng=(latitude, longitude),
                                              result_type=["street_address", "route", "intersection", "neighborhood",
                                                           "premise"],
                                              # filters out quite a number of results. Assumption is that system is
                                              # being used for locations within cities
-                                             location_type=[
-                                                 "GEOMETRIC_CENTER"])  # using GEOMETRIC_CENTER makes up for some of
-    # the inaccuracies and lack of specific coordinates
+                                             location_type=["APPROXIMATE",
+                                                            "GEOMETRIC_CENTER"])  # using GEOMETRIC_CENTER makes up
+    # for some inaccuracies and lack of specific coordinates
 
-    return location_details
+    # return place id and use for search instead, because the data returned by the API is a lot, and
+    # place id is easier to get and is a unique identifier of a place, which I think is more specific
+    return location_details[0].get('place_id'), location_details[0].get('formatted_address')
+
+
