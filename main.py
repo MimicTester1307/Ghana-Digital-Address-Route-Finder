@@ -28,22 +28,22 @@ def home():
             origin = session.get('source-details')[1]
         if session.get('dest_details'):
             destination = session.get('dest_details')[1]
-        return render_template('home.html', api_key=API_KEY, origin=origin, destination=destination)
+        return render_template('home.html', api_key=API_KEY, origin=origin, destination=destination)  # TODO: Refresh only map and not entire page
     else:
         if is_valid_input(escape(request.form['source-address'].strip()),
-                          escape(request.form['destination-address'].strip())):
+                          escape(request.form['destination-address'].strip())):  # check if input is valid
             source_input: str = escape(request.form['source-address'])
             dest_input: str = escape(request.form['destination-address'])
 
-            geolocation_data = query_ghpost_api(source_input, dest_input)
-            if geolocation_data:
-                source_lat, source_long = geolocation_data['source_address']
-                dest_lat, dest_long = geolocation_data['destination_address']
+            address_data = query_ghpost_api(source_input, dest_input)   # return data about input addresses
+            if address_data:
+                source_lat, source_long = address_data['source_address']
+                dest_lat, dest_long = address_data['destination_address']
 
-                source_details = get_location_details(source_lat, source_long)
+                source_details = get_location_details(source_lat, source_long)  # get location details of address from Google Maps
                 dest_details = get_location_details(dest_lat, dest_long)
 
-                session['source-details'] = source_details
+                session['source-details'] = source_details    # create session to store the returned details. Temporary solution
                 session['dest_details'] = dest_details
 
             return redirect(url_for('home'))

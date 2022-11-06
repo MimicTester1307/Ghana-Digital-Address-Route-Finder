@@ -16,7 +16,7 @@ gmaps = googlemaps.Client(key=API_KEY)
 
 def is_valid_input(source_address: str, dest_address: str) -> bool:
     """
-    This function takes the form inputs and validates it by searching for the specified regex pattern
+    takes the form inputs and validates it by searching for the specified regex pattern
     and ensuring that the length of the input is either 9 or 11.
 
     :param source_address: the source address the user wants to search from
@@ -35,11 +35,11 @@ def is_valid_input(source_address: str, dest_address: str) -> bool:
 
 def query_ghpost_api(source_address: str, dest_address: str) -> defaultdict[list[float]] or None:
     """
-    This function queries the Ghana Post GPS API using the obtained digital addresses
+    queries the Ghana Post GPS API using the obtained digital addresses
     to get the data required to find the routes on a Google Map
     :param source_address: the source address the user wants to search from
     :param dest_address: the destination address the user will search for
-    :return:
+    :return: defaultdict[list[float]] or None
     """
     headers = {
         'Content-Type': 'application/x-www-form-urlencoded'
@@ -64,18 +64,24 @@ def query_ghpost_api(source_address: str, dest_address: str) -> defaultdict[list
         return None
 
 
-def get_location_details(latitude: float, longitude: float) -> tuple:
+def get_location_details(latitude: float, longitude: float) -> tuple or None:
+    """"
+    queries the Geocoding API to reverse geocode the given latitude and longitude into
+    a human-readable address
+    :param latitude: coordinate latitude
+    :param longitude: coordinate longitude
+    :return tuple or None
+    """
     location_details = gmaps.reverse_geocode(latlng=(latitude, longitude),
-                                             result_type=["street_address", "route", "intersection", "neighborhood",
-                                                          "premise"],
+                                             result_type=["premise", "subpremise", "street_address", "route", "intersection", "neighborhood"],
                                              # filters out quite a number of results. Assumption is that system is
                                              # being used for locations within cities
-                                             location_type=["APPROXIMATE",
-                                                            "GEOMETRIC_CENTER"])  # using GEOMETRIC_CENTER makes up
-    # for some inaccuracies and lack of specific coordinates
+                                             location_type=["APPROXIMATE", "GEOMETRIC_CENTER"])  # Adding GEOMETRIC_CENTER to make up for some inaccuracies and lack of specific coordinates
 
     # return place id and use for search instead, because the data returned by the API is a lot, and
     # place id is easier to get and is a unique identifier of a place, which I think is more specific
-    return location_details[0].get('place_id'), location_details[0].get('formatted_address')
+    if len(location_details > 0):
+        return location_details[0].get('place_id'), location_details[0].get('formatted_address')
+    return None
 
 
