@@ -1,6 +1,6 @@
 import os
 
-from flask import Flask, render_template, escape, request, session, redirect, url_for
+from flask import Flask, render_template, escape, request, session, redirect, url_for, flash
 from helpers import is_valid_input, query_ghpost_api, get_location_details
 from dotenv import load_dotenv
 
@@ -49,6 +49,7 @@ def home():
             return redirect(url_for('home'))
         else:
             error = 'Invalid search input(s)'
+            flash(error, 'error')
 
 
 if __name__ == '__main__':
