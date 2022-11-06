@@ -80,7 +80,7 @@ def get_location_details(latitude: float, longitude: float) -> tuple or None:
 
     # return place id and use for search instead, because the data returned by the API is a lot, and
     # place id is easier to get and is a unique identifier of a place, which I think is more specific
-    if len(location_details > 0):
+    if len(location_details) > 0:
         return location_details[0].get('place_id'), location_details[0].get('formatted_address')
     return None
 
