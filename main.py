@@ -28,7 +28,7 @@ def home():
             origin = session.get('source-details')[1]
         if session.get('dest_details'):
             destination = session.get('dest_details')[1]
-        return render_template('home.html', api_key=API_KEY, origin=origin, destination=destination)  # TODO: Refresh only map and not entire page
+        return render_template('home.html', api_key=API_KEY, origin=origin, destination=destination, zoom=12)  # TODO: Refresh only map and not entire page
     else:
         if is_valid_input(escape(request.form['source-address'].strip()),
                           escape(request.form['destination-address'].strip())):  # check if input is valid
