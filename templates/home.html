@@ -31,12 +31,8 @@
     </div>
 </section>
 <section style="padding: 24px 0px;height: 500px;">
-    <div class="container">
-        <div>  <!-- Replace this div here with results from the call to the Google Maps API -->
-            <iframe allowfullscreen frameborder="0"
-                    src="https://www.google.com/maps/embed/v1/directions?key={{ api_key }}&origin=Accra%2C+Ghana&destination=Kumasi%2C+Ghana&zoom=8"
-                    loading="lazy" width="100%" height="800"></iframe>
-        </div>
+    <div class="container" id="directions-map">
+        {% include "map.html" %}
     </div>
 </section>
 
