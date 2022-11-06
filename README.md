@@ -10,5 +10,5 @@ Regardless, this was quite an interesting project to explore.
 
 More details about this project can be found in my article [here](https://excel-chukwu.netlify.app/2022/11/06/building-a-ghana-digital-address-route-finder/).
 
-A link to the working prototype of the application can be found [here]() as well. I offer no guarantees 
+A link to the working prototype of the application can be found [here](https://starfish-app-8xk6a.ondigitalocean.app/) as well. I offer no guarantees 
 that the link will always be functional whenever you try to access it.
