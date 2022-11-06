@@ -23,9 +23,15 @@ def home():
     error = None
 
     if request.method == 'GET':
-        return render_template('home.html', api_key=API_KEY)
+        origin, destination = None, None
+        if session.get('source-details'):
+            origin = session.get('source-details')[1]
+        if session.get('dest_details'):
+            destination = session.get('dest_details')[1]
+        return render_template('home.html', api_key=API_KEY, origin=origin, destination=destination)
     else:
-        if is_valid_input(escape(request.form['source-address'].strip()), escape(request.form['destination-address'].strip())):
+        if is_valid_input(escape(request.form['source-address'].strip()),
+                          escape(request.form['destination-address'].strip())):
             source_input: str = escape(request.form['source-address'])
             dest_input: str = escape(request.form['destination-address'])
 
@@ -34,8 +40,11 @@ def home():
                 source_lat, source_long = geolocation_data['source_address']
                 dest_lat, dest_long = geolocation_data['destination_address']
 
-                source_place_id, source_formatted_address = get_location_details(source_lat, source_long)
-                dest_place_id, dest_formatted_address = get_location_details(dest_lat, dest_long)
+                source_details = get_location_details(source_lat, source_long)
+                dest_details = get_location_details(dest_lat, dest_long)
+
+                session['source-details'] = source_details
+                session['dest_details'] = dest_details
 
             return redirect(url_for('home'))
         else:
