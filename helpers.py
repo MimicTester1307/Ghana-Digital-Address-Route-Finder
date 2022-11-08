@@ -23,8 +23,8 @@ def is_valid_input(source_address: str, dest_address: str) -> bool:
     :param dest_address: the destination address the user will search for
     :return: bool
     """
-    source_match = re.search("^[A-Z]{1}[A-Z0-9]{1}-[0-9]{3}-[0-9]{4}$||^[A-Z]{2}[0-9]{7}$", source_address)
-    dest_match = re.search("^[A-Z]{1}[A-Z0-9]{1}-[0-9]{3}-[0-9]{4}$||^[A-Z]{2}[0-9]{7}$", dest_address)
+    source_match = re.search("^[a-zA-Z0-9]{2}(?:-?\d{3}-?\d{4})$", source_address)
+    dest_match = re.search("^[a-zA-Z0-9]{2}(?:-?\d{3}-?\d{4})$", dest_address)
 
     if (source_match and dest_match) and (len(source_address) == 9 or len(source_address) == 11 and len(dest_address) ==
                                           9 or len(dest_address) == 11):
