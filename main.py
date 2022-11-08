@@ -1,6 +1,6 @@
 import os
 
-from flask import Flask, render_template, escape, request, session, redirect, url_for, flash
+from flask import Flask, render_template, escape, request, session, redirect, url_for, flash, app
 from helpers import is_valid_input, query_ghpost_api, get_location_details
 from dotenv import load_dotenv
 
@@ -50,6 +50,11 @@ def home():
         else:
             error = 'Invalid search input(s)'
             flash(error, 'error')
+
+
+@app.before_request
+def before_request():
+    session.permanent = False    # session will be deleted when user closes browser
 
 
 if __name__ == '__main__':
