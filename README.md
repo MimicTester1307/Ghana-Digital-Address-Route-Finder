@@ -1,3 +1,8 @@
+## Update
+
+With the loss of the Heroku free tier offerings, the GhanaPostGPS API server is now offline. I will try to deploy my own instance when I have the time. Please view the article on my website (linked below) to understand more details about how this application was built.
+
+
 # Welcome to the Ghana Digital Address Route Finder
 
 <hr>
@@ -19,7 +24,3 @@ The map should now refresh with routes from the location represented by the sour
 
 A link to the working prototype of the application can be found [here](https://starfish-app-8xk6a.ondigitalocean.app/).
 
-
-## Update
-
-With the loss of the Heroku free tier offerings, the GhanaPostGPS API server is now offline. I will try to deploy my own instance when I have the time. Please view the article on my website (linked above) to understand more details about how this application was built.
