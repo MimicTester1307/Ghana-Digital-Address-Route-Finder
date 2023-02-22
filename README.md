@@ -22,4 +22,4 @@ A link to the working prototype of the application can be found [here](https://s
 
 ## Update
 
-With the loss of the Heroku free tier offerings, the GhanaPostGPS API server is now offline. I will try to deploy my own instance when I have the time. Please view the article on my website to understand more details about how this application was built.
+With the loss of the Heroku free tier offerings, the GhanaPostGPS API server is now offline. I will try to deploy my own instance when I have the time. Please view the article on my website (linked above) to understand more details about how this application was built.
