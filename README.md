@@ -1,6 +1,6 @@
 ## Update
 
-With the loss of the Heroku free tier offerings, the GhanaPostGPS API server is now offline. I will try to deploy my own instance when I have the time. Please view the article on my website (linked below) to understand more details about how this application was built.
+With the loss of the Heroku free tier offerings, the GhanaPostGPS API server is now offline. I will try to deploy my own instance when I have the time. Please view the article on my website (linked below) to understand more about how this application was built.
 
 
 # Welcome to the Ghana Digital Address Route Finder
